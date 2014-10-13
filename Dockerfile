@@ -10,4 +10,7 @@ VOLUME /config
 VOLUME /media
 
 EXPOSE 32400
-CMD /opt/plexmediaserver/start_pms
+
+ADD start.sh /start.sh
+RUN chmod +x /start.sh
+CMD /start.sh
