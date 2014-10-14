@@ -1,5 +1,6 @@
 #!/bin/bash
 
+rm '/config/Library/Application Support/Plex Media Server/plexmediaserver.pid'
 /opt/plexmediaserver/start_pms &
 while [[ ! -f '/config/Library/Application Support/Plex Media Server/Logs/Plex Media Server.log' ]]
 do
