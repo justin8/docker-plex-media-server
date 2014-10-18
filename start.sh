@@ -1,6 +1,16 @@
 #!/bin/bash
 PID_FILE="/config/Library/Application Support/Plex Media Server/plexmediaserver.pid"
 
+#dbus
+mkdir /run/dbus
+dbus-uuidgen --ensure
+dbus-daemon --system --fork
+sleep 1
+
+#avahi
+avahi-daemon --no-chroot -D
+avahi-resolve-host-name -a 127.0.0.1 > /dev/null
+
 rm -f '/config/Library/Application Support/Plex Media Server/plexmediaserver.pid'
 /opt/plexmediaserver/start_pms &
 echo -n "Waiting for service to start..."
