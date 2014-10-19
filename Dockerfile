@@ -14,7 +14,7 @@ VOLUME /media
 # Ports:
 # 32400: webui
 # 32469: DLNA
-# 5353: mDNS/avahi/zeroconf discovery
+# 5353: mDNS/avahi/zeroconf discovery; This may conflict with mDNS on your host.
 # 1900: uPNP discovery
 
 EXPOSE 32400 32400/udp 32469 32469/udp 5353/udp 1900/udp
