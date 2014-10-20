@@ -1,5 +1,5 @@
 #!/bin/bash
-PID_FILE="/config/Library/Application Support/Plex Media Server/plexmediaserver.pid"
+PID_FILE="/config/Plex Media Server/plexmediaserver.pid"
 
 
 #dbus
@@ -12,7 +12,7 @@ sleep 1
 avahi-daemon --no-chroot -D
 avahi-resolve-host-name -a 127.0.0.1 > /dev/null
 
-rm -f '/config/Library/Application Support/Plex Media Server/plexmediaserver.pid'
+rm -f "$PID_FILE"
 sed -i 's/^/export /g' /etc/conf.d/plexmediaserver
 source /etc/conf.d/plexmediaserver
 /usr/bin/plexmediaserver.sh &
