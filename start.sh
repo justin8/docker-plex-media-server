@@ -13,10 +13,14 @@ avahi-daemon --no-chroot -D
 avahi-resolve-host-name -a 127.0.0.1 > /dev/null
 
 rm -f "$PID_FILE"
-sed -i 's/^/export /g' /etc/conf.d/plexmediaserver
 source /etc/conf.d/plexmediaserver
 /usr/bin/plexmediaserver.sh &
+'/opt/plexmediaserver/Plex Media Server'
 echo -n "Waiting for service to start..."
+
+# Not sure if these are needed or not.
+export LANG='en_US.UTF-8'
+export LC_ALL='en_US.UTF-8'
 
 count=0
 while [[ ! -f $PID_FILE ]] && [[ $count -lt 20 ]] ; do

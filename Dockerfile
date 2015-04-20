@@ -5,6 +5,8 @@ RUN pacman -Sy --noprogressbar --noconfirm plex-media-server avahi && rm -rf /va
 
 RUN sed -i 's|PLEX_MEDIA_SERVER_APPLICATION_SUPPORT_DIR.*|PLEX_MEDIA_SERVER_APPLICATION_SUPPORT_DIR="/config"|' /etc/conf.d/plexmediaserver
 
+RUN sed -i 's/^/export /g' /etc/conf.d/plexmediaserver
+
 VOLUME /config
 VOLUME /media
 
