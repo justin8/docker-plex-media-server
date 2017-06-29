@@ -1,7 +1,25 @@
-FROM justin8/archlinux
+FROM base/archlinux
 MAINTAINER justin@dray.be
 
-RUN pacman -Sy --noprogressbar --noconfirm plex-media-server avahi && rm -rf /var/cache/pacman/pkg/*
+# Setup a build environment
+RUN pacman -Sy --noprogressbar --noconfirm base-devel git && rm -rf /var/cache/pacman/pkg/*
+RUN useradd -m -d /build build-user && \
+    echo 'build-user ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/build-user
+USER build-user
+RUN cd /build && \
+    curl -O https://aur.archlinux.org/cgit/aur.git/snapshot/prelink.tar.gz && \
+    tar xf prelink.tar.gz && \
+    cd prelink && \
+    makepkg -rcfs --noconfirm && \
+    sudo pacman -U --noconfirm prelink*pkg*
+RUN cd /build && \
+    curl -O https://aur.archlinux.org/cgit/aur.git/snapshot/plex-media-server.tar.gz && \
+    tar xf plex-media-server.tar.gz && \
+    cd plex-media-server && \
+    makepkg -rcfs --noconfirm && \
+    sudo pacman -U --noconfirm plex-media-server*pkg*
+USER root
+RUN pacman -Q plex-media-server | awk '{print $2}' > /version
 
 RUN sed -i 's|PLEX_MEDIA_SERVER_APPLICATION_SUPPORT_DIR.*|PLEX_MEDIA_SERVER_APPLICATION_SUPPORT_DIR="/config"|' /etc/conf.d/plexmediaserver
 
